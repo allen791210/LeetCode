@@ -49,10 +49,15 @@ class Solution:
         return count
 
     def dfs_mark_island(self, grid, i, j, visited):
-        if i < 0 or j < 0 or i >= len(grid) or j >= len(grid[0]) or grid[i][j] != '1' or (i, j) in visited:
+        if not self.is_lsland(grid, i, j, visited):
             return
-
-        #grid[i][j] = '#' # use '#' or visited
+        #grid[i][j] = '#'
         visited.add((i, j))
         for x_step, y_step in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
             self.dfs_mark_island(grid, i + x_step, j + y_step, visited)
+            
+    def is_lsland(self, grid, i, j, visited):
+        if i < 0 or j < 0 or i >= len(grid) or j >= len(grid[0]) or grid[i][j] != '1' or (i, j) in visited:
+            return False
+        else:
+            return True

@@ -61,3 +61,34 @@ class Solution:
                 # path.append(next_word)
                 self.dfs(next_word, endWord, distance, wordList, path + [next_word], results)
                 # path.pop()
+
+
+import collections
+class Solution:
+    def findLadders(self, beginWord, endWord, wordList):
+        wordList = set(wordList)
+        res = []
+        layer = {beginWord: [[beginWord]]}
+
+        while layer:
+            newlayer = collections.defaultdict(list)
+            for w in layer:
+                if w == endWord: 
+                    for r in layer[endWord]:
+                        res.append(r)
+                else:
+                    for next_word in self.getNextWord(w, wordList):
+                        newlayer[next_word] += [j + [next_word] for j in layer[w]]
+            wordList -= set(newlayer.keys())
+            layer = newlayer
+        return res
+    
+    def getNextWord(self, word, wordList):
+        words = []
+        for i in range(len(word)):
+            for char in "abcdefghijklmnopqrstuvwxyz":
+                if char != word[i]:
+                    next_word = word[:i] + char + word[i + 1:]
+                    if next_word in wordList:
+                        words.append(next_word)
+        return words
